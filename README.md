@@ -17,6 +17,8 @@ Este Microsserviço é apenas para funções voltadas para o carrinho de compras
 - Lombok: É um framework para Java que permite escrever código eliminando a verbosidade, o que permite ganhar tempo de desenvolvimento;
 - Web Client: Possui uma API funcional e fluente baseada em Reactor que permite a composição declarativa de lógica assíncrona sem a necessidade de lidar com threads ou simultaneidade.
 - RabbitMQ: Message broker altamente consolidado e utilizado por quem trabalha com comunicação entre sistemas. Operando de forma assíncrona, ele age como um intermediário que processa as nossas mensagens entre produtores e consumidores, além de contar com filas que possuem diversas opções de encaminhamento.
+- JUnit: É um framework open-source, que se assemelha ao raio de testes software java com suporte à criação de testes automatizados na linguagem de programação Java. Esse framework facilita a criação e manutenção do código para a automação de testes com apresentação dos resultados.
+- Mockito:É um framework de teste de código aberto para Java. A estrutura permite a criação de objetos duplos de teste em testes de unidade automatizados para fins de desenvolvimento orientado a testes ou desenvolvimento orientado a comportamento.
 
 
 ##   :bar_chart: Diagrama de classes
