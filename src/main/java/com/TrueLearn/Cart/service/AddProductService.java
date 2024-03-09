@@ -49,7 +49,12 @@ public class AddProductService {
 			cart.setTotalPrice(courseResponse.getPrice());
 			cart.setCourseResponsesList(courseResponses);
 		}else {
-			cart = cartRepository.findByCartId(cartRequest.getCartId()).orElseThrow( () -> new NotFoundException());
+			try {
+				cart = cartRepository.findByCartId(cartRequest.getCartId());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		
 			cart.setTotalPrice(cart.getTotalPrice().add(courseResponse.getPrice()));
 			courseResponses = cart.getCourseResponsesList();
 			courseResponses.add(courseResponse);

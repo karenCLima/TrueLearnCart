@@ -10,7 +10,7 @@ import com.TrueLearn.Cart.model.Cart;
 public interface CartRepository extends JpaRepository<Cart, Long> {
 	
 	@Query(value = "SELECT * FROM CARTS WHERE CART_ID = :cartId", nativeQuery = true)
-	Optional <Cart> findByCartId(String cartId);
+	Cart findByCartId(String cartId);
 	
 
 }
