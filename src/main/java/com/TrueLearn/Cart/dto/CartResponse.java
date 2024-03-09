@@ -32,6 +32,6 @@ public class CartResponse {
     
     private UserResponse userResponse;
     
-    private List<CourseResponse> courseResponse;
+    private List<UUID> courseIds;
 
 }

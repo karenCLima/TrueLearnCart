@@ -1,6 +1,8 @@
 package com.TrueLearn.Cart.service;
 
 import java.awt.Cursor;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,13 +40,16 @@ public class DeleteProductService {
 			throw new Exception("The status of the cart is not open to modification!");
 		}
 		
-		List<CourseResponse> courseResponses = cart.getCourseResponsesList();
+		List<UUID> courseIds = cart.getCoursesIdsList();
 		
-		Optional<CourseResponse> courseToDelete =  courseResponses.stream().filter(course -> course.getCourseId().equals(courseId)).findFirst();
+		UUID courseToDelete =  courseIds.stream().filter(course -> course.equals(courseId)).findFirst().orElse(null);
 		
-		if(courseToDelete.isPresent()) {
-			courseResponses.remove(courseToDelete);
-			cart.setCourseResponsesList(courseResponses);
+		if(courseToDelete != null) {
+			courseIds.remove(courseToDelete);
+			cart.setCoursesIdsList(courseIds);
+			cart.setPurchaseDate(LocalDateTime.now());
+			CourseResponse courseResponse = courseCliente.getCourseByCourseId(courseToDelete);
+			cart.setTotalPrice(cart.getTotalPrice().subtract(courseResponse.getPrice()));
 			cartRepository.save(cart);
 		}else {
 			throw new NotFoundException();

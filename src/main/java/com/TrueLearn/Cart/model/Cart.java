@@ -44,6 +44,6 @@ public class Cart {
 	
 	@OneToMany
 	@JoinColumn(name = "courses")
-	List<CourseResponse> courseResponsesList;
+	List<UUID> coursesIdsList;
 
 }

@@ -40,14 +40,14 @@ public class AddProductService {
 		if(courseResponse == null) throw new NotFoundException();
 		
 		Cart cart = new Cart();
-		List<CourseResponse> courseResponses = new ArrayList<CourseResponse>();
+		List<UUID> courseIds = new ArrayList<UUID>();
 		if(ObjectUtils.isEmpty(cartRequest.getCartId())) {
-			courseResponses.add(courseResponse);
+			courseIds.add(courseResponse.getCourseId());
 			cart.setCartId(UUID.randomUUID().toString());
 			cart.setCartStatus(CartStatus.IN_PROGRESS);
 			cart.setPurchaseDate(LocalDateTime.now());
 			cart.setTotalPrice(courseResponse.getPrice());
-			cart.setCourseResponsesList(courseResponses);
+			cart.setCoursesIdsList(courseIds);
 		}else {
 			try {
 				cart = cartRepository.findByCartId(cartRequest.getCartId());
@@ -56,9 +56,9 @@ public class AddProductService {
 			}
 		
 			cart.setTotalPrice(cart.getTotalPrice().add(courseResponse.getPrice()));
-			courseResponses = cart.getCourseResponsesList();
-			courseResponses.add(courseResponse);
-			cart.setCourseResponsesList(courseResponses);
+			courseIds = cart.getCoursesIdsList();
+			courseIds.add(courseResponse.getCourseId());
+			cart.setCoursesIdsList(courseIds);
 		}
 		
 		CartResponse cartResponse = CartConvert.toResponse(cart);
