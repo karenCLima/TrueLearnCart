@@ -1,10 +1,7 @@
-package com.TrueLearn.Cart.service;
+package com.TrueLearn.Cart.usecases.impl;
 
-import java.awt.Cursor;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
@@ -19,9 +16,10 @@ import com.TrueLearn.Cart.dto.CartResponse;
 import com.TrueLearn.Cart.model.Cart;
 import com.TrueLearn.Cart.model.CartStatus;
 import com.TrueLearn.Cart.repository.CartRepository;
+import com.TrueLearn.Cart.usecases.IDeleteProductUseCase;
 
 @Service
-public class DeleteProductService {
+public class DeleteProductUseCaseImpl implements IDeleteProductUseCase {
 	
 	@Autowired
 	CartRepository cartRepository;
