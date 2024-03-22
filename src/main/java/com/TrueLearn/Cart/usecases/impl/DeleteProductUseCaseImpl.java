@@ -56,12 +56,6 @@ public class DeleteProductUseCaseImpl implements IDeleteProductUseCase {
 		return CartConvert.toResponse(cart);
 	}
 	
-	public void deleteCart(String cartId) throws NotFoundException {
-		Cart cart = cartRepository.findByCartId(cartId);
-		
-		if(cart == null) throw new NotFoundException();
-		
-		cartRepository.delete(cart);
-	}
+	
 	
 }

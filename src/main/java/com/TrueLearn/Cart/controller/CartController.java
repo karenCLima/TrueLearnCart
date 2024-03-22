@@ -17,6 +17,7 @@ import com.TrueLearn.Cart.dto.CartRequest;
 import com.TrueLearn.Cart.dto.CartResponse;
 import com.TrueLearn.Cart.usecases.IAddProductUseCase;
 import com.TrueLearn.Cart.usecases.ICreateCartUseCase;
+import com.TrueLearn.Cart.usecases.IDeleteCartUseCase;
 import com.TrueLearn.Cart.usecases.IDeleteProductUseCase;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -32,6 +33,9 @@ public class CartController{
 	IAddProductUseCase addProductService;
 	
 	@Autowired
+	IDeleteCartUseCase deleteCartService;
+	
+	@Autowired
 	IDeleteProductUseCase deleteProductService;
 	
 	@PostMapping
@@ -42,7 +46,12 @@ public class CartController{
 	
 	@DeleteMapping("/{cartId}")
 	public void deleteCart(@PathVariable String cartId) throws NotFoundException {
-		deleteProductService.deleteCart(cartId);
+		deleteCartService.deleteCart(cartId);
+	}
+	
+	@PutMapping("/product/{cartId}")
+	public ResponseEntity<CartResponse> addProductInCart(@PathVariable String cartId, @RequestBody UUID courseId) throws Exception{
+		return ResponseEntity.ok(addProductService.AddProduct(cartId, courseId));
 	}
 	
 	@DeleteMapping("/product/{cartId}")

@@ -10,6 +10,6 @@ public interface IDeleteProductUseCase {
 	
 	CartResponse deleteProduct(String cartId, UUID courseId) throws Exception;
 	
-	void deleteCart(String cartId) throws NotFoundException;
+	
 
 }

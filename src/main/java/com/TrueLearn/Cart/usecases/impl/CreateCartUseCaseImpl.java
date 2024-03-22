@@ -10,9 +10,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.TrueLearn.Cart.Util.CartConvert;
-import com.TrueLearn.Cart.client.CourseClient;
 import com.TrueLearn.Cart.client.UserClient;
-import com.TrueLearn.Cart.client.payload.CourseResponse;
 import com.TrueLearn.Cart.client.payload.UserResponse;
 import com.TrueLearn.Cart.dto.CartRequest;
 import com.TrueLearn.Cart.dto.CartResponse;
