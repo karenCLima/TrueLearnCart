@@ -7,7 +7,9 @@ import java.util.UUID;
 
 import com.TrueLearn.Cart.client.payload.CourseResponse;
 
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -42,8 +44,9 @@ public class Cart {
 	@Column(name = "cartStatus")
     private CartStatus cartStatus;
 	
-	@OneToMany
-	@JoinColumn(name = "courses")
-	List<CourseResponse> courseResponsesList;
+	@ElementCollection
+	@CollectionTable(name = "courses-cart", joinColumns = @JoinColumn(name = "cart_id"))
+	@Column(name = "courseId")
+	private List<UUID> coursesIdsList;
 
 }

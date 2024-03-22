@@ -12,8 +12,7 @@ public class CartConvert {
 		cartResponse.setCartStatus(cart.getCartStatus());
 		cartResponse.setPurchaseDate(cart.getPurchaseDate());
 		cartResponse.setTotalPrice(cart.getTotalPrice());
-		cartResponse.setCourseResponse(cart.getCourseResponsesList());
-		
+		cartResponse.setCourseIds(cart.getCoursesIdsList());
 		return cartResponse;
 	} 
 
