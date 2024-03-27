@@ -7,6 +7,6 @@ import com.TrueLearn.Cart.dto.CartResponse;
 
 public interface ICreateCartUseCase {
 	
-	CartResponse createCart(CartRequest cartRequest) throws NotFoundException;
+	CartResponse createCart(String userCpf) throws NotFoundException;
 
 }

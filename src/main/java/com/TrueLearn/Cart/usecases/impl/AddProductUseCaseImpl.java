@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,7 +30,11 @@ public class AddProductUseCaseImpl implements IAddProductUseCase{
 	@Autowired
 	private CourseClient courseCliente;
 	
+	private static final Logger logger = LoggerFactory.getLogger(AddProductUseCaseImpl.class);
+	
 	public CartResponse AddProduct(String cartId, UUID courseId) throws NotFoundException {
+		
+		logger.info("Course Id value: {}", courseId);
 		
 		Cart cart = cartRepository.findByCartId(cartId);
 		if(cart == null) throw new NotFoundException();
@@ -46,7 +53,7 @@ public class AddProductUseCaseImpl implements IAddProductUseCase{
 		cart.setCartStatus(CartStatus.IN_PROGRESS);
 		cart.setPurchaseDate(LocalDateTime.now());
 		
-		CartResponse cartResponse = CartConvert.toResponse(cart);
+		CartResponse cartResponse = CartConvert.toResponse(cartRepository.save(cart));
 		
 		
 		return cartResponse;

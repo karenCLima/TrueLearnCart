@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.TrueLearn.Cart.dto.CartRequest;
 import com.TrueLearn.Cart.dto.CartResponse;
+import com.TrueLearn.Cart.model.Cart;
 import com.TrueLearn.Cart.usecases.IAddProductUseCase;
 import com.TrueLearn.Cart.usecases.ICreateCartUseCase;
 import com.TrueLearn.Cart.usecases.IDeleteCartUseCase;
 import com.TrueLearn.Cart.usecases.IDeleteProductUseCase;
+import com.TrueLearn.Cart.usecases.IUpdateCartUseCase;
 
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
@@ -38,9 +40,12 @@ public class CartController{
 	@Autowired
 	IDeleteProductUseCase deleteProductService;
 	
-	@PostMapping
-	public ResponseEntity<CartResponse> createCart(@RequestBody CartRequest cartRequest) throws NotFoundException{
-		CartResponse cartResponse = createCartService.createCart(cartRequest);
+	@Autowired
+	IUpdateCartUseCase updateCartService;
+	
+	@PostMapping("/{userCpf}")
+	public ResponseEntity<CartResponse> createCart(@PathVariable String userCpf) throws NotFoundException{
+		CartResponse cartResponse = createCartService.createCart(userCpf);
 		return ResponseEntity.created(URI.create("/cart/" + cartResponse.getCartId())).body(cartResponse);
 	}
 	
@@ -49,8 +54,13 @@ public class CartController{
 		deleteCartService.deleteCart(cartId);
 	}
 	
-	@PutMapping("/product/{cartId}")
-	public ResponseEntity<CartResponse> addProductInCart(@PathVariable String cartId, @RequestBody UUID courseId) throws Exception{
+	@PutMapping
+	public ResponseEntity<CartResponse> updateCart(@RequestBody Cart cart) throws NotFoundException{
+		return ResponseEntity.ok(updateCartService.updateCart(cart));
+	}
+	
+	@PostMapping("/product/{cartId}/{courseId}")
+	public ResponseEntity<CartResponse> addProductInCart(@PathVariable String cartId, @PathVariable UUID courseId) throws Exception{
 		return ResponseEntity.ok(addProductService.AddProduct(cartId, courseId));
 	}
 	

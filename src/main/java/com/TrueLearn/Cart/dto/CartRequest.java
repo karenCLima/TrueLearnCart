@@ -14,8 +14,6 @@ public class CartRequest {
 	
 	private String cartId;
 	
-	private UUID courseId;
-	
 	private String userCpf;
 
 }

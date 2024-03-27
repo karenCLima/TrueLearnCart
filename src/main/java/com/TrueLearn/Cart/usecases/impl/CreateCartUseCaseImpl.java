@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.TrueLearn.Cart.Util.CartConvert;
 import com.TrueLearn.Cart.client.UserClient;
 import com.TrueLearn.Cart.client.payload.UserResponse;
@@ -26,11 +29,16 @@ public class CreateCartUseCaseImpl implements ICreateCartUseCase{
 	CartRepository cartRepository;
 	@Autowired
 	private UserClient userClient;
+	
+	private static final Logger logger = LoggerFactory.getLogger(CreateCartUseCaseImpl.class);
 
 	@Override
-	public CartResponse createCart(CartRequest cartRequest) throws NotFoundException {
+	public CartResponse createCart(String userCpf) throws NotFoundException {
 		
-		UserResponse userResponse = userClient.getUserByCpf(cartRequest.getUserCpf());
+		logger.info("CPF value: {}", userCpf);
+		
+		UserResponse userResponse = userClient.getUserByCpf(userCpf);
+		System.out.println(userResponse.getCpf());
 		if(userResponse == null) throw new NotFoundException();
 		
 		Cart cart = new Cart();
@@ -40,7 +48,7 @@ public class CreateCartUseCaseImpl implements ICreateCartUseCase{
 		cart.setPurchaseDate(LocalDateTime.now());
 		cart.setCoursesIdsList(courseIds);
 		
-		CartResponse cartResponse = CartConvert.toResponse(cart);
+		CartResponse cartResponse = CartConvert.toResponse(cartRepository.save(cart));
 		cartResponse.setUserResponse(userResponse);
 		
 		return cartResponse;
