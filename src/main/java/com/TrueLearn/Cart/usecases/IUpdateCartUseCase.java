@@ -2,11 +2,11 @@ package com.TrueLearn.Cart.usecases;
 
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
-import com.TrueLearn.Cart.dto.CartRequest;
+import com.TrueLearn.Cart.model.Cart;
 import com.TrueLearn.Cart.dto.CartResponse;
 
-public interface ICreateCartUseCase {
+public interface IUpdateCartUseCase {
 	
-	CartResponse createCart(String userCpf) throws NotFoundException;
+	CartResponse updateCart(Cart cart) throws NotFoundException;
 
 }

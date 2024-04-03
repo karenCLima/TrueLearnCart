@@ -7,6 +7,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.TrueLearn.Cart.Util.CartConvert;
 import com.TrueLearn.Cart.client.CourseClient;
@@ -18,6 +19,9 @@ import com.TrueLearn.Cart.model.CartStatus;
 import com.TrueLearn.Cart.repository.CartRepository;
 import com.TrueLearn.Cart.usecases.IDeleteProductUseCase;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Service
 public class DeleteProductUseCaseImpl implements IDeleteProductUseCase {
 	
@@ -28,13 +32,19 @@ public class DeleteProductUseCaseImpl implements IDeleteProductUseCase {
 	@Autowired
 	UserClient userClient;
 	
+	private static final Logger logger = LoggerFactory.getLogger(DeleteProductUseCaseImpl.class);
+	
+	@Transactional
 	public CartResponse deleteProduct(String cartId, UUID courseId) throws Exception {
+		logger.info("Course Id value: {}", courseId);
+		logger.info("Cart Id value: {}", cartId);
 		
 		Cart cart = cartRepository.findByCartId(cartId);
 		
 		if(cart == null) throw new NotFoundException();
 		
 		if(cart.getCartStatus() == CartStatus.APROVED || cart.getCartStatus() == CartStatus.PENDENT || cart.getCartStatus() == CartStatus.ERROR) {
+			logger.info("Cart status value: {}", cart.getCartStatus());
 			throw new Exception("The status of the cart is not open to modification!");
 		}
 		
@@ -56,12 +66,6 @@ public class DeleteProductUseCaseImpl implements IDeleteProductUseCase {
 		return CartConvert.toResponse(cart);
 	}
 	
-	public void deleteCart(String cartId) throws NotFoundException {
-		Cart cart = cartRepository.findByCartId(cartId);
-		
-		if(cart == null) throw new NotFoundException();
-		
-		cartRepository.delete(cart);
-	}
+	
 	
 }
