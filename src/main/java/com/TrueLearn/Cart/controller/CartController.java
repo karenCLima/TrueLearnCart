@@ -83,8 +83,8 @@ public class CartController{
 		return ResponseEntity.ok(addProductService.AddProduct(cartId, courseId));
 	}
 	
-	@DeleteMapping("/product/{cartId}")
-	public ResponseEntity<CartResponse> deleteProductInCart(@PathVariable String cartId, @RequestBody UUID courseId) throws Exception{
+	@DeleteMapping("/product/{cartId}/{courseId}")
+	public ResponseEntity<CartResponse> deleteProductInCart(@PathVariable String cartId, @PathVariable UUID courseId) throws Exception{
 		return ResponseEntity.ok(deleteProductService.deleteProduct(cartId, courseId));
 	}
 }

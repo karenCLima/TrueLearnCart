@@ -1,5 +1,6 @@
 package com.TrueLearn.Cart.usecases.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,7 @@ public class CreateCartUseCaseImpl implements ICreateCartUseCase{
 		cart.setCartStatus(CartStatus.CREATED);
 		cart.setPurchaseDate(LocalDateTime.now());
 		cart.setCoursesIdsList(courseIds);
+		cart.setTotalPrice(BigDecimal.ZERO);
 		
 		CartResponse cartResponse = CartConvert.toResponse(cartRepository.save(cart));
 		cartResponse.setUserResponse(userResponse);

@@ -6,6 +6,7 @@ import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
 import com.TrueLearn.Cart.Util.CartConvert;
 import com.TrueLearn.Cart.dto.CartResponse;
@@ -13,6 +14,7 @@ import com.TrueLearn.Cart.model.Cart;
 import com.TrueLearn.Cart.repository.CartRepository;
 import com.TrueLearn.Cart.usecases.IListCartUseCase;
 
+@Service
 public class ListCartUseCaseImpl implements IListCartUseCase{
 	
 	@Autowired
@@ -20,7 +22,7 @@ public class ListCartUseCaseImpl implements IListCartUseCase{
 
 	@Override
 	public Page<CartResponse> getAllCarts(int page, int size, String direction) {
-		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(direction), "name");
+		PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.fromString(direction.toUpperCase()), "cartId");
 		Page<Cart>cart = cartRepository.findAll(pageRequest);
 		return CartConvert.toResponsePage(cart);
 	}

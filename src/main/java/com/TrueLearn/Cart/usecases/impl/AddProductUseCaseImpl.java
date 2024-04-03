@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.TrueLearn.Cart.Util.CartConvert;
 import com.TrueLearn.Cart.client.CourseClient;
@@ -32,17 +33,20 @@ public class AddProductUseCaseImpl implements IAddProductUseCase{
 	
 	private static final Logger logger = LoggerFactory.getLogger(AddProductUseCaseImpl.class);
 	
+	@Transactional
 	public CartResponse AddProduct(String cartId, UUID courseId) throws NotFoundException {
 		
 		logger.info("Course Id value: {}", courseId);
 		
 		Cart cart = cartRepository.findByCartId(cartId);
+		logger.info("Cart value: {}", cart);
 		if(cart == null) throw new NotFoundException();
 		
 		CourseResponse courseResponse = courseCliente.getCourseByCourseId(courseId);
 		if(courseResponse == null) throw new NotFoundException();
 		
-		if(cart.getCartStatus()!= CartStatus.CREATED || cart.getCartStatus() != CartStatus.IN_PROGRESS) {
+		if(cart.getCartStatus()== CartStatus.APROVED || cart.getCartStatus()== CartStatus.ERROR || cart.getCartStatus() == CartStatus.PENDENT) {
+			logger.info("Cart value: {}", cart.getCartStatus());
 			throw new NotFoundException();
 		}
 		
